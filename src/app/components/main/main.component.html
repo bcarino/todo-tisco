@@ -1,0 +1,69 @@
+<div class="full-container" fxLayout="column">
+    <mat-toolbar class="header">
+        <button (click)="snav.toggle()" mat-icon-button>
+            <mat-icon>menu</mat-icon>
+        </button>
+        <div fxFlex>Todo</div>
+        <button (click)="addTodoDialog()" mat-icon-button>
+            <mat-icon>add_circle</mat-icon>
+        </button>
+    </mat-toolbar>
+
+
+
+    <mat-sidenav-container fxFlex fxLayout="row wrap">
+        <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" style="width: 270px;">
+            <mat-nav-list>
+                <mat-list-item (click)="listToday()">
+                    <div [ngClass]="{'active': tab == 'TODAY'}">
+                        Today
+                    </div>
+                </mat-list-item>
+                <mat-list-item (click)="listIncoming()">
+                    <div [ngClass]="{'active': tab == 'INCOMING'}">
+                        Incoming
+                    </div>
+                </mat-list-item>
+                <mat-list-item (click)="listDone()">
+                    <div [ngClass]="{'active': tab == 'DONE'}">
+                        Done
+                    </div>
+                </mat-list-item>
+                <mat-list-item (click)="listOverDue()">
+                    <div [ngClass]="{'active': tab == 'OVERDUE'}">
+                        Overdue
+                    </div>
+                </mat-list-item>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <mat-sidenav-content fxFlex fxLayout="row wrap" fxLayoutAlign="start start">
+            <div *ngFor="let todo of (todo$ |async) ; let i = index" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="25" style="padding:24px">
+                <mat-card [style.background-color]="todo?.color" class="card-wrap">
+                    <div class="task-wrap">
+                        <mat-checkbox class="check-box" (change)="updateTodo(todo)" [(ngModel)]="todo.success"></mat-checkbox>
+                        <div class="todo-name">
+                            {{todo?.name}}
+                        </div>
+                        <div class="todo-icon" class="color-wrap" *ngIf="todo.icon" class="icon-wrap">
+                            <span class="material-icons">
+                                            {{todo?.icon}}
+                                        </span>
+                        </div>
+                        <div class="todo-date">{{todo?.date?.toDateString()}}</div>
+                    </div>
+                    <div class="edit-wrap" fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="8px">
+                        <button (click)="editTodoDialog(todo)" mat-icon-button>
+                            <mat-icon>create</mat-icon>
+                        </button>
+                        <button (click)="deleteTodo(todo)" mat-icon-button>
+                            <mat-icon>delete_sweep</mat-icon>
+                        </button>
+                    </div>
+                </mat-card>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+
+
+</div>

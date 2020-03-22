@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Colors</h1>
+<form mat-dialog-content fxLayout="row wrap" fxLayoutGap="8px">
+    <div class="color-wrap" *ngFor="let item of colors" [style.background-color]="item" [ngStyle]="{'border': getSelectStyle(item)}" (click)="selectedColor(item)">
+
+    </div>
+
+</form>
+<div mat-dialog-actions align="end">
+    <button color="primary" mat-flat-button cdkFocusInitial (click)="choose()">Choose</button>
+    <button mat-button (click)="close()">Cancel</button>
+</div>
